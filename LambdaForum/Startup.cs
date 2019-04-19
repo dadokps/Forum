@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using LambdaForum.Data;
 using LambdaForum.Models;
 using LambdaForum.Services;
+using LambdaForum.Data.Models;
 
 namespace LambdaForum
 {
