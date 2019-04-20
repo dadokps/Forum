@@ -9,6 +9,7 @@ using LambdaForum.Services;
 using LambdaForum.Data.Models;
 using LambdaForums.Data;
 using LambdaForums.Service;
+using LambdaForums.Data.Models;
 
 namespace LambdaForum
 {
@@ -34,6 +35,7 @@ namespace LambdaForum
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IForum, ForumService>();
+            services.AddScoped<IPost, PostService>();
 
             services.AddMvc();
         }
