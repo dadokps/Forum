@@ -16,6 +16,9 @@ namespace LambdaForum.Models.Post
         public string DatePosted { get; set; }
 
         // each Post will corespond to particular Forum
+        public int ForumId { get; set; }
+        public string ForumName { get; set; }
+        public string ForumImageUrl { get; set; }
         public ForumListingModel Forum { get; set; }
 
         // display how many Replies the Post has

@@ -5,6 +5,7 @@ using LambdaForums.Data;
 using LambdaForums.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,13 @@ namespace LambdaForum.Controllers
 {
     public class PostController : Controller
     {
-
         private readonly IPost _postService;
         private readonly IForum _forumService;
 
         private static UserManager<ApplicationUser> _userManager;
 
         // Constructor for dependency injection to pass services to PostController
-        public PostController(IPost postService, IForum forumService, IApplicationUser userService, UserManager<ApplicationUser> userManager)
+        public PostController(IPost postService, IForum forumService, UserManager<ApplicationUser> userManager)
         {
             _postService = postService;
             _forumService = forumService;
@@ -50,6 +50,52 @@ namespace LambdaForum.Controllers
             };
 
             return View(model);
+        }
+
+        // Create new Post
+        public IActionResult Create(int id)
+        {
+            // note id here is Forum.Id
+            var forum = _forumService.GetById(id);
+
+            var model = new NewPostModel
+            {
+                ForumName = forum.Title,
+                ForumId = forum.Id,
+                AuthorName = User.Identity.Name,
+                ForumImageUrl = forum.ImageUrl
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPost(NewPostModel model)
+        {
+            var userId = _userManager.GetUserId(User);
+            var user = await _userManager.FindByIdAsync(userId);
+            var post = BuildPost(model, user);
+
+            await _postService.Add(post);
+            // await _userService.BumpRating(userId, typeof(Post));
+
+            return RedirectToAction("Index", "Post", new { id = post.Id });
+        }
+
+        public Post BuildPost(NewPostModel post, ApplicationUser user)
+        {
+            var now = DateTime.Now;
+            var forum = _forumService.GetById(post.ForumId);
+
+            return new Post
+            {
+                Title = post.Title,
+                Content = post.Content,
+                Created = now,
+                Forum = forum,
+                User = user
+                //IsArchived = false
+            };
         }
 
         private IEnumerable<PostReplyModel> GetPostReplies(Post post)
