@@ -16,9 +16,10 @@ namespace LambdaForums.Service
             _context = context;
         }
 
-        public Task Add(Post post)
+        public async Task Add(Post post)
         {
-            throw new System.NotImplementedException();
+            _context.Add(post);
+            await _context.SaveChangesAsync();
         }
 
         public Task Delete(int id)
@@ -31,9 +32,15 @@ namespace LambdaForums.Service
             throw new System.NotImplementedException();
         }
 
+        // Get all Posts with linked tabels
         public IEnumerable<Post> GetAll()
         {
-            throw new System.NotImplementedException();
+            var posts = _context.Posts
+                .Include(post => post.Forum)
+                .Include(post => post.User)
+                .Include(post => post.Replies)
+                .ThenInclude(reply => reply.User);
+            return posts;
         }
 
         public Post GetById(int id)
@@ -50,11 +57,33 @@ namespace LambdaForums.Service
         {
             throw new System.NotImplementedException();
         }
+        
+        // Get 10 latest posts
+        public IEnumerable<Post> GetLatestPosts(int count)
+        {
+            var allPosts = GetAll().OrderByDescending(post => post.Created);
+            return allPosts.Take(count);
+        }
 
         // Get all Posts of particular Forum
         public IEnumerable<Post> GetPostsByForum(int id)
         {
             return _context.Forums.Where(forum => forum.Id == id).First().Posts;
         }
+        
+        // Get the number of Replies for the particular Post
+        public int GetReplyCount(int id)
+        {
+            return GetById(id).Replies.Count();
+        }
+
+        // Get the Image of the Forum
+        public string GetForumImageUrl(int id)
+        {
+            var post = GetById(id);
+            return post.Forum.ImageUrl;
+        }
+
+
     }
 }
