@@ -41,9 +41,9 @@ namespace LambdaForum.Controllers
                 AuthorName = post.User.UserName,
                 AuthorImageUrl = post.User.ProfileImage,
                 AuthorRating = post.User.Rating,
-                //IsAuthorAdmin = IsAuthorAdmin(post.User),
+                IsAuthorAdmin = IsAuthorAdmin(post.User),
                 Date = post.Created,
-                //PostContent = _postFormatter.Prettify(post.Content),
+                PostContent = post.Content,
                 Replies = replies,
                 ForumId = post.Forum.Id,
                 ForumName = post.Forum.Title
@@ -108,9 +108,16 @@ namespace LambdaForum.Controllers
                 AuthorImageUrl = reply.User.ProfileImage,
                 AuthorRating = reply.User.Rating,
                 Date = reply.Created,
-                ReplyContent = reply.Content
-               // IsAuthorAdmin = IsAuthorAdmin(reply.User)
+                ReplyContent = reply.Content,
+                IsAuthorAdmin = IsAuthorAdmin(reply.User)
             });
+        }
+
+        // Check if the User is Administrator
+        public static bool IsAuthorAdmin(ApplicationUser user)
+        {
+            return _userManager.GetRolesAsync(user)
+                .Result.Contains("Admin");
         }
 
     }
