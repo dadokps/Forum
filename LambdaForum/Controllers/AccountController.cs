@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using LambdaForum.Models.AccountViewModels;
 using LambdaForum.Services;
-using LambdaForum.Data.Models;
+using LambdaForums.Data.Models;
 
 namespace LambdaForum.Controllers
 {

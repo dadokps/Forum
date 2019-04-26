@@ -6,10 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LambdaForum.Data;
 using LambdaForum.Services;
-using LambdaForum.Data.Models;
+using LambdaForums.Data.Models;
 using LambdaForums.Data;
 using LambdaForums.Service;
-using LambdaForums.Data.Models;
 
 namespace LambdaForum
 {
@@ -17,7 +16,7 @@ namespace LambdaForum
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+               Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -36,7 +35,9 @@ namespace LambdaForum
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IForum, ForumService>();
             services.AddScoped<IPost, PostService>();
-
+            services.AddScoped<IApplicationUser, ApplicationUserService>();
+            //services.AddSingleton<IUpload, UploadService>();
+            services.AddSingleton(Configuration);
             services.AddMvc();
         }
 

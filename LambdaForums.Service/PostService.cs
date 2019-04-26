@@ -53,10 +53,20 @@ namespace LambdaForums.Service
                 .FirstOrDefault();
         }
 
-        public IEnumerable<Post> GetFilteredPosts(string search)
+        
+        public IEnumerable<Post> GetFilteredPosts(string searchQuery)
         {
-            throw new System.NotImplementedException();
+            var query = searchQuery.ToLower();
+
+            return _context.Posts
+                .Include(post => post.Forum)
+                .Include(post => post.User)
+                .Include(post => post.Replies)
+                .Where(post =>
+                    post.Title.ToLower().Contains(query)
+                    || post.Content.ToLower().Contains(query));
         }
+      
         
         // Get 10 latest posts
         public IEnumerable<Post> GetLatestPosts(int count)

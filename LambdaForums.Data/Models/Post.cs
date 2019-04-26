@@ -1,4 +1,4 @@
-﻿using LambdaForum.Data.Models;
+﻿using LambdaForums.Data.Models;
 using System;
 using System.Collections.Generic;
 

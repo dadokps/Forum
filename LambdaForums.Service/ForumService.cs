@@ -1,5 +1,5 @@
 ﻿using LambdaForum.Data;
-using LambdaForum.Data.Models;
+using LambdaForums.Data.Models;
 using LambdaForums.Data;
 using LambdaForums.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +13,7 @@ namespace LambdaForums.Service
     public class ForumService : IForum
     {
         private readonly ApplicationDbContext _context;
+        private readonly IPost _postService;
 
         public ForumService(ApplicationDbContext context)
         {
@@ -52,6 +53,23 @@ namespace LambdaForums.Service
                 .FirstOrDefault();
 
             return forum;  
+        }
+
+        public IEnumerable<Post> GetFilteredPosts(string searchQuery)
+        {
+            return _postService.GetFilteredPosts(searchQuery);
+        }
+
+        public IEnumerable<Post> GetFilteredPosts(int forumId, string searchQuery)
+        {
+            if (forumId == 0) return _postService.GetFilteredPosts(searchQuery);
+
+            var forum = GetById(forumId);
+
+            return string.IsNullOrEmpty(searchQuery)
+                ? forum.Posts
+                : forum.Posts.Where(post
+                    => post.Title.Contains(searchQuery) || post.Content.Contains(searchQuery));
         }
 
         public Task UpdateForumDescription(int forumId, string newDescription)

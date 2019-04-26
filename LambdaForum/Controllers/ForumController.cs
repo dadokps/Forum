@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using LambdaForum.Models.Forum;
 using LambdaForum.Models.Post;
 using LambdaForums.Data;
@@ -65,21 +62,21 @@ namespace LambdaForum.Controllers
             return View(model);
         }
 
-        private ForumListingModel BuildForumListing(Post post)
-        {
-            var forum = post.Forum;
-            return BuildForumListing(forum);
-        }
-
-        private ForumListingModel BuildForumListing(Forum forum)
+        private static ForumListingModel BuildForumListing(LambdaForums.Data.Models.Forum forum)
         {
             return new ForumListingModel
             {
                 Id = forum.Id,
+                ImageUrl = forum.ImageUrl,
                 Title = forum.Title,
-                Description = forum.Description,
-                ImageUrl = forum.ImageUrl
+                Description = forum.Description
             };
+        }
+
+        private static ForumListingModel BuildForumListing(Post post)
+        {
+            var forum = post.Forum;
+            return BuildForumListing(forum);
         }
     }
 }

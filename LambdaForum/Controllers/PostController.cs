@@ -1,8 +1,7 @@
-﻿using LambdaForum.Data.Models;
+﻿using LambdaForums.Data.Models;
 using LambdaForum.Models.Post;
 using LambdaForum.Models.Reply;
 using LambdaForums.Data;
-using LambdaForums.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -39,7 +38,7 @@ namespace LambdaForum.Controllers
                 Title = post.Title,
                 AuthorId = post.User.Id,
                 AuthorName = post.User.UserName,
-                AuthorImageUrl = post.User.ProfileImage,
+                AuthorImageUrl = post.User.ProfileImageUrl,
                 AuthorRating = post.User.Rating,
                 IsAuthorAdmin = IsAuthorAdmin(post.User),
                 Date = post.Created,
@@ -105,7 +104,7 @@ namespace LambdaForum.Controllers
                 Id = reply.Id,
                 AuthorName = reply.User.UserName,
                 AuthorId = reply.User.Id,
-                AuthorImageUrl = reply.User.ProfileImage,
+                AuthorImageUrl = reply.User.ProfileImageUrl,
                 AuthorRating = reply.User.Rating,
                 Date = reply.Created,
                 ReplyContent = reply.Content,
