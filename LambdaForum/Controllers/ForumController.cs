@@ -35,11 +35,13 @@ namespace LambdaForum.Controllers
         }
 
         // Get Forum
-        public IActionResult Topic(int id)
+        public IActionResult Topic(int id, string searchQuery)
         {
             var forum = _forumService.GetById(id);
             // var posts = _postsService.GetPostsByForum(id); // get the Posts from particular Forum
-            var posts = forum.Posts;
+            //var posts = forum.Posts;
+            var posts = _forumService.GetFilteredPosts(id, searchQuery).ToList();
+            var noResults = (!string.IsNullOrEmpty(searchQuery) && !posts.Any());
 
             var postListings = posts.Select(post => new PostListingModel
             {
@@ -55,11 +57,19 @@ namespace LambdaForum.Controllers
 
             var model = new ForumTopicModel
             {
+                EmptySearchResults = noResults,
+                SearchQuery = searchQuery,
                 Posts = postListings,
                 Forum = BuildForumListing(forum)
             };
 
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Search(int id, string searchQuery)
+        {
+            return RedirectToAction("Topic", new { id, searchQuery });
         }
 
         private static ForumListingModel BuildForumListing(LambdaForums.Data.Models.Forum forum)
@@ -78,5 +88,7 @@ namespace LambdaForum.Controllers
             var forum = post.Forum;
             return BuildForumListing(forum);
         }
+
+
     }
 }

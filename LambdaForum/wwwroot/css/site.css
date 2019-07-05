@@ -116,7 +116,24 @@
     font-size: 1.2em;
 }
 
-/**Post Page*/
+/*Forum Topic Page*/
+.searchBar {
+    padding: 3px 5px 2px 12px;
+    margin: 8px;
+    background-color: #333;
+    width: 10%;
+    transition: ease .3s;
+    border: none;
+}
+
+.searchBar:focus {
+    color: black;
+    background-color: #fff;
+    width: 60%;
+}
+
+
+/*Post Page*/
 .postTitle {
     font-family: 'Roboto';
     font-weight: bold;
@@ -253,6 +270,13 @@
     background-color: #00897B !important;
     transition: ease-in 0.1s;
     color: #fff !important;
+}
+
+.btn-forumSearch {
+    background: none !important;
+    border: none;
+    padding: 0 !important;
+    font: inherit;
 }
 
 /*Forum Index*/
