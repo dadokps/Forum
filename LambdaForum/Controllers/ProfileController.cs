@@ -51,7 +51,9 @@ namespace LambdaForum.Controllers
             return View(model);
         }
 
-
+        /*
+        Uploads the Image of the User. Stores in images Folder and writes the path in DB
+        */
         [HttpPost]
         public async Task<IActionResult> UploadProfileImage(IFormFile file)
         {
