@@ -26,8 +26,8 @@
     {
         <div class="row userProfile">
             <div class="col-md-4">
-                <!-- <div id="userProfileImage" style="background-image: url(mankeyModel.ProfileImageUrl); background-size:100%;"></div> -->
-                <img id="userProfileImage" src="@Url.Content("~"+@Model.ProfileImageUrl+"")" style="max-width: 65px;max-height: 65px;" />
+                <div id="userProfileImage" style="background-image: url(mankeyModel.ProfileImageUrl); background-size:100%;"></div> 
+                <!-- <img id="userProfileImage" src="@Url.Content("~"+@Model.ProfileImageUrl+"")" style="max-width: 65px;max-height: 65px;" />-->
                 @if (Context.User.Identity.Name == Model.Username)
                 {
                     <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
@@ -40,26 +40,26 @@
                     </form>
                 }
             </div>
-            <div class="col-md-8">
-                <span id="userName">@Model.Username</span> 
-                @if (@Model.IsAdmin)
-                {
-                    <span class="isAdmin">Admin</span>
-                }
-                <span id="userRating">Current Rating: @Model.UserRating</span>
-                <span id="userEmailLabel">Email: @Model.Email</span>
-                <span id="userCreatedLabel">Member Since: @Model.DateJoined</span>
-                <span id="userActiveLabel">Status: 
-                    @if (!@Model.IsActive)
+                <div class="col-md-8">
+                    <span id="userName">@Model.Username</span>
+                    @if (@Model.IsAdmin)
                     {
-                        <span class="inactiveUser">Inactive</span>
+                        <span class="isAdmin">Admin</span>
                     }
-                    else
-                    {
-                        <span>Active</span>
-                    }
-                </span>
+                    <span id="userRating">Current Rating: @Model.UserRating</span>
+                    <span id="userEmailLabel">Email: @Model.Email</span>
+                    <span id="userCreatedLabel">Member Since: @Model.DateJoined</span>
+                    <span id="userActiveLabel">Status:
+                        @if (!@Model.IsActive)
+                        {
+                            <span class="inactiveUser">Inactive</span>
+                        }
+                        else
+                        {
+                            <span>Active</span>
+                        }
+                    </span>
+                </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
