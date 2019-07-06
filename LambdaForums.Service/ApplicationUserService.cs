@@ -61,6 +61,14 @@ namespace LambdaForums.Service
             await _context.SaveChangesAsync();
         }
 
+        public async Task SetProfileImage(string id, Uri uri)
+        {
+            var user = GetById(id);
+            user.ProfileImageUrl = uri.AbsoluteUri;
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task BumpRating(string userId, Type type)
         {
             var user = GetById(userId);

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using LambdaForum.Models.ApplicationUser;
 using Microsoft.AspNetCore.Hosting;
+using System.Net.Http.Headers;
 
 namespace LambdaForum.Controllers
 {
@@ -17,15 +18,20 @@ namespace LambdaForum.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IApplicationUser _userService;
-        //private readonly IUpload _uploadService;
+        private readonly IUpload _uploadService;
         private readonly IConfiguration _configuration;
         private IHostingEnvironment _hostingEnvironment;
 
-        public ProfileController(UserManager<ApplicationUser> userManager, IApplicationUser userService, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        public ProfileController(
+            UserManager<ApplicationUser> userManager, 
+            IApplicationUser userService, 
+            IConfiguration configuration, 
+            IHostingEnvironment hostingEnvironment,
+            IUpload uploadService)
         {
             _userManager = userManager;
             _userService = userService;
-            //_uploadService = uploadService;
+            _uploadService = uploadService;
             _configuration = configuration;
             _hostingEnvironment = hostingEnvironment;
         }
@@ -53,7 +59,7 @@ namespace LambdaForum.Controllers
 
         /*
         Uploads the Image of the User. Stores in images Folder and writes the path in DB
-        */
+        
         [HttpPost]
         public async Task<IActionResult> UploadProfileImage(IFormFile file)
         {
@@ -72,11 +78,13 @@ namespace LambdaForum.Controllers
           
             return RedirectToAction("Detail", "Profile", new { id = userId });
         }
+        */
+
         /*
          * Files uploaded using the IFormFile technique are buffered in memory or on disk on the web server 
          * before being processed. Inside the action method, the IFormFile contents are accessible as a stream. 
          * In addition to the local file system, files can be streamed to Azure Blob storage or Entity Framework.
-         
+          */
 
         [HttpPost]
         public async Task<IActionResult> UploadProfileImage(IFormFile file)
@@ -95,7 +103,7 @@ namespace LambdaForum.Controllers
 
             return RedirectToAction("Detail", "Profile", new { id = userId });
         }
-        */
+       
 
         public IActionResult Index()
         {
