@@ -37,7 +37,7 @@ namespace LambdaForum
             services.AddScoped<IPost, PostService>();
             services.AddScoped<IApplicationUser, ApplicationUserService>();
             services.AddTransient<DataSeeder>();
-            //services.AddSingleton<IUpload, UploadService>();
+            services.AddSingleton<IUpload, UploadService>();
             services.AddSingleton(Configuration);
             services.AddMvc();
         }

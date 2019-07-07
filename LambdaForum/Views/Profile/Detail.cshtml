@@ -26,8 +26,8 @@
     {
         <div class="row userProfile">
             <div class="col-md-4">
-                <div id="userProfileImage" style="background-image: url(mankeyModel.ProfileImageUrl); background-size:100%;"></div> 
-                <!-- <img id="userProfileImage" src="@Url.Content("~"+@Model.ProfileImageUrl+"")" style="max-width: 65px;max-height: 65px;" />-->
+                <div id="userProfileImage" style="background-image: url(@Model.ProfileImageUrl); background-size: 100%;"></div> 
+                <!-- <img id="userProfileImage" src="atUrl.Content("~"+atModel.ProfileImageUrl+"")" style="max-width: 65px;max-height: 65px;" />-->
                 @if (Context.User.Identity.Name == Model.Username)
                 {
                     <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">

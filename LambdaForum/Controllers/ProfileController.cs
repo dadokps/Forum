@@ -90,15 +90,19 @@ namespace LambdaForum.Controllers
         public async Task<IActionResult> UploadProfileImage(IFormFile file)
         {
             var userId = _userManager.GetUserId(User);
+            // connect to an Azure Storage Account Container
             var connectionString = _configuration.GetConnectionString("AzureStorageAccountConnectionString");
+            // get Blob Container
             var container = _uploadService.GetBlobContainer(connectionString);
-
+            // parse the Content Disposition response header
             var parsedContentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
+            // grab the filename
             var filename = Path.Combine(parsedContentDisposition.FileName.Trim('"'));
-
+            // get a reference to a Block Blob
             var blockBlob = container.GetBlockBlobReference(filename);
-
+            // upload a file
             await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
+            // set the Users Profile Image to the URI
             await _userService.SetProfileImage(userId, blockBlob.Uri);
 
             return RedirectToAction("Detail", "Profile", new { id = userId });
