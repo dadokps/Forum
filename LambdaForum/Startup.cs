@@ -36,13 +36,14 @@ namespace LambdaForum
             services.AddScoped<IForum, ForumService>();
             services.AddScoped<IPost, PostService>();
             services.AddScoped<IApplicationUser, ApplicationUserService>();
+            services.AddTransient<DataSeeder>();
             //services.AddSingleton<IUpload, UploadService>();
             services.AddSingleton(Configuration);
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DataSeeder dataSeeder)
         {
             if (env.IsDevelopment())
             {
@@ -54,6 +55,8 @@ namespace LambdaForum
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            dataSeeder.SeedSuperUser();
 
             app.UseStaticFiles();
 
